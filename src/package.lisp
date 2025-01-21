@@ -3,9 +3,13 @@
   (:export
    #:size-of
    #:gl-array
+   #:gl-array-2d
    #:gl-array-length
    #:with-shader
-   #:run-sketch))
+   #:run-sketch
+   #:write-array-buffer
+   #:write-array-buffer-2d))
+
 
 (in-package #:niu)
 
@@ -22,18 +26,6 @@
   (getf +cl-cffi-type-map+ cl-type))
 
 
-(defun gl-array (data)
-  "Allocates a GL array with the same type as data. Every value in data must be
-of the same type"
-  (let* ((data-type (type-of (first data)))
-         (gl-type (to-cffi-type data-type))
-         (array-length (length data))
-         (arr (gl:alloc-gl-array gl-type array-length)))
-    (dotimes (i array-length)
-      (setf (gl:glaref arr i) (nth i data)))
-    arr))
-
-
 (defmacro with-shader (symbol vertex-shader-source fragment-shader-source &body body)
   "Creates a form that compiles a vertex and fragment shader from source, links
 it and makes it available throughout the form."
@@ -43,15 +35,15 @@ it and makes it available throughout the form."
              (,symbol (gl:create-program)))
          (gl:shader-source vs ,vertex-shader-source)
          (gl:shader-source fs ,fragment-shader-source)
-         (print "Compiling vertex shader...")
+         (format t "Compiling vertex shader...~%")
          (gl:compile-shader vs)
-         (print "Compiling fragment shader...")
+         (format t "Compiling fragment shader...~%")
          (gl:compile-shader fs)
-         (print "Attaching vertex shader...")
+         (format t "Attaching vertex shader...~%")
          (gl:attach-shader ,symbol vs)
-         (print "Attaching fragment shader...")
+         (format t "Attaching fragment shader...~%")
          (gl:attach-shader ,symbol fs)
-         (print "Linking shader program")
+         (format t "Linking shader program~%")
          (gl:link-program ,symbol)
          (gl:delete-shader vs)
          (gl:delete-shader fs)
@@ -64,20 +56,23 @@ it and makes it available throughout the form."
   "Creates and starts GLFW window context.
 Keys that can be provided and their defaults:
   - :title - \"\"
-  - :width - 1280
-  - :height - 800
+  - :width - 1000
+  - :height - 1000
+  - :vertex-shader - niu:+vs-default+
+  - :fragment-shader - niu:+fs-white+
   - :on-keydown - (lambda (key))"
   (let ((title (getf keys :title ""))
-        (width (getf keys :width 1280))
-        (height (getf keys :height 800))
+        (width (getf keys :width 1000))
+        (height (getf keys :height 1000))
         (vertex-shader (getf keys :vertex-shader +vs-default+))
         (fragment-shader (getf keys :fragment-shader +fs-white+))
         (on-keydown (getf keys :on-keydown (lambda (key)))))
     `(progn
        (glfw:def-key-callback key-callback (win key scancode action mod)
+         (declare (ignore scancode mod))
          (when (eq action :press)
            (progn
-             (handler-case (funcall 'on-keydown key) (error (e) (print e)))
+             (handler-case (funcall ',on-keydown key) (error (e) (print e)))
              (when (eq key :escape)
                (glfw:set-window-should-close win)))))
        (glfw:with-init-window (:title ,title :width ,width :height ,height)
@@ -97,3 +92,17 @@ Keys that can be provided and their defaults:
          (element-size (-> (type-of e) (to-cffi-type) (sizeof)))
          (array-size (gl:gl-array-byte-size array)))
     (/ array-size element-size)))
+
+(defun write-array-buffer (id data)
+  (gl:bind-buffer :array-buffer id)
+  (gl:buffer-data :array-buffer :dynamic-draw (niu:gl-array data)))
+
+
+(defun gl-array (data)
+  (let* ((data-type (type-of (aref data 0)))
+         (gl-type (to-cffi-type data-type))
+         (array-length (length data))
+         (arr (gl:alloc-gl-array gl-type array-length)))
+    (dotimes (i array-length)
+      (setf (gl:glaref arr i) (aref data i)))
+    arr))

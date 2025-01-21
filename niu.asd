@@ -5,4 +5,5 @@
                :cffi)
   :pathname "src"
   :serial t
-  :components ((:file "package")))
+  :components ((:file "package")
+               (:file "shaders")))
