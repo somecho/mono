@@ -24,6 +24,6 @@
     until (glfw:window-should-close-p)
     do (progn
          ;; it is not necessary to create and bind and EBO
-         (gl:draw-elements :triangles (niu:gl-array indices))
+         (gl:draw-elements :triangles (niu:gl-array indices :unsigned-int))
          (glfw:swap-buffers)
          (glfw:poll-events))))
