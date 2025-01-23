@@ -15,9 +15,6 @@
                        0.0 1.0 0.0 1.0
                        0.0 0.0 1.0 1.0))
 
-(when (string-equal "a" "") (print "empty"))
-
-
 (niu:run-sketch (:fragment-shader niu:+fs-default+)
 
   ;; initialize buffers
@@ -28,13 +25,13 @@
   (gl:bind-vertex-array vao)
 
   ;; write vertices
-  (niu:write-array-buffer vbuf vertices)
+  (niu:write-array-buffer vbuf (niu:gl-array vertices))
   (gl:vertex-attrib-pointer
    0 3 :float :false (niu:size-of :float 3) 0)
   (gl:enable-vertex-attrib-array 0)
 
   ;; write colors
-  (niu:write-array-buffer cbuf colors)
+  (niu:write-array-buffer cbuf (niu:gl-array colors))
   (gl:vertex-attrib-pointer
    1 4 :float :false (niu:size-of :float 4) 0)
   (gl:enable-vertex-attrib-array 1)
