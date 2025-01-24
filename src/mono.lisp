@@ -29,16 +29,25 @@ Keys that can be provided and their defaults:
            (gl:viewport 0 0 ,width ,height)
            ,@body)))))
 
-(defmacro with-fps ((symbol) &body loop-expr)
+(defmacro with-frame-stats (&body loop-expr)
   "Instruments a loop expression to calculate the framerate. LOOP-EXPR must be a
-loop expression! WITH-FPS must be called after GLFW has been initialized."
+loop expression! WITH-FRAME-STATS must be called after GLFW has been
+initialized. This macro makes the following symbols available:
+- mono::fps - rounded frame rate
+- mono::frame-num - the current frame number
+- mono::frame-delta - the duration in seconds it took to render the previous
+  frame
+- mono::curr-time - the current time in seconds since GLFW has been initalized
+"
   (let* ((loop-body (car `,loop-expr))
          (update-form `(do (let ((new-time (glfw:get-time)))
                              (setf frame-delta (- new-time curr-time))
                              (setf curr-time new-time)
-                             (setf ,symbol (floor (/ 1.0 frame-delta))))))
+                             (setf fps (round (/ 1.0 frame-delta)))
+                             (incf frame-num))))
          (body (concatenate 'list loop-body update-form)))
     `(let ((frame-delta 0.0)
            (curr-time (glfw:get-time))
-           (,symbol 0))
+           (fps 0)
+           (frame-num 0))
        ,body)))

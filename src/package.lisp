@@ -3,7 +3,7 @@
 
   ;; mono
   (:export #:start
-           #:with-fps)
+           #:with-frame-stats)
 
   ;; array
   (:export #:size-of
