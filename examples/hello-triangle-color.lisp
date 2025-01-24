@@ -15,7 +15,7 @@
                        0.0 1.0 0.0 1.0
                        0.0 0.0 1.0 1.0))
 
-(niu:run-sketch (:fragment-shader niu:+fs-default+)
+(mono:run-sketch (:fragment-shader mono:+fs-default+)
 
   ;; initialize buffers
   (setf vbuf (gl:gen-buffer))
@@ -25,15 +25,15 @@
   (gl:bind-vertex-array vao)
 
   ;; write vertices
-  (niu:write-array-buffer vbuf (niu:gl-array vertices))
+  (mono:write-array-buffer vbuf (mono:gl-array vertices))
   (gl:vertex-attrib-pointer
-   0 3 :float :false (niu:size-of :float 3) 0)
+   0 3 :float :false (mono:size-of :float 3) 0)
   (gl:enable-vertex-attrib-array 0)
 
   ;; write colors
-  (niu:write-array-buffer cbuf (niu:gl-array colors))
+  (mono:write-array-buffer cbuf (mono:gl-array colors))
   (gl:vertex-attrib-pointer
-   1 4 :float :false (niu:size-of :float 4) 0)
+   1 4 :float :false (mono:size-of :float 4) 0)
   (gl:enable-vertex-attrib-array 1)
 
   (loop

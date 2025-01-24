@@ -1,4 +1,4 @@
-(asdf:defsystem #:niu
+(asdf:defsystem #:mono
   :depends-on (:cl-opengl
                :cl-glfw3
                :arrows
@@ -7,10 +7,10 @@
   :serial t
   :components ((:file "package")
                (:file "shaders")
-               (:file "buffer")
-               (:file "niu")))
+               (:file "array")
+               (:file "mono")))
 
-(asdf:defsystem #:niu/tests
-  :depends-on (:niu :parachute)
+(asdf:defsystem #:mono/tests
+  :depends-on (:mono :parachute)
   :pathname "tests"
   :components ((:file "buffer.test")))

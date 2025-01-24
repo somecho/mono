@@ -1,6 +1,6 @@
-(in-package #:niu)
+(in-package #:mono)
 
-(defun to-cffi-type (cl-type)
+(defun --to-cffi-type (cl-type)
   "Returns the corresponding CFFI type. Supported CFFI types:
 - :float
 - :double"
@@ -12,25 +12,14 @@
     (single-float :float)
     (double-float :double)))
 
-(defun gl-array-2d (data)
-  "Allocates, writes and returns a cl-opengl:gl-array with data,
-which is a simple-vector of simple-vectors. No check is done to make sure that
-every vector in data is of the same size. The stride of the allocated gl array
-will be the length of the first vector in data."
-  (let* ((dimension (length (aref data 0)))
-         (data-type (type-of (aref (aref data 0) 0)))
-         (gl-type (to-cffi-type data-type))
-         (array-length (* (length data) dimension))
-         (arr (gl:alloc-gl-array gl-type array-length)))
-    (dotimes (i (length data))
-      (dotimes (j dimension)
-        (setf (gl:glaref arr (+ (* i dimension) j))
-              (aref (aref data i) j))))
-    arr))
-
+(defun size-of (foreign-type &optional (n 1))
+  "Calculates the size of a C type. An optional argument
+`n` can be provided as the number of said type."
+  (* n (cffi:foreign-type-size foreign-type)))
 (declaim (ftype (function
                  ((simple-vector) &optional (member :float :double :unsigned-int)) gl:gl-array)
                 gl-array))
+
 (defun gl-array (data &optional foreign-type)
   "Allocates, writes and returns a cl-opengl:gl-array with data,
 which is a simple-vector of some cffi-type. No check is done to make sure that
@@ -38,7 +27,7 @@ all types are the same. Optionally provide a TYPE."
   (let* ((data-type (type-of (aref data 0)))
          (gl-type (if foreign-type
                       foreign-type
-                      (to-cffi-type data-type)))
+                      (--to-cffi-type data-type)))
          (array-length (length data))
          (arr (gl:alloc-gl-array gl-type array-length)))
     (dotimes (i array-length)

@@ -1,11 +1,15 @@
-(defpackage #:niu
+(defpackage #:mono
   (:use :cl :arrows)
-  (:export
-   #:size-of
-   #:gl-array
-   #:gl-array-2d
-   #:with-shader
-   #:run-sketch
-   #:to-cffi-type
-   #:write-array-buffer
-   #:+fs-default+))
+
+  ;; mono
+  (:export #:start)
+
+  ;; array
+  (:export #:size-of
+           #:gl-array
+           #:write-array-buffer)
+
+  ;; shaders
+  (:export #:+vs-projection+
+           #:+fs-default+
+           #:with-shader))

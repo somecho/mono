@@ -13,17 +13,17 @@
 (defparameter vbo nil)
 (defparameter vao nil)
 
-(niu:run-sketch (:width 600 :height 600)
+(mono:start (:width 600 :height 600)
   (setf vbo (gl:gen-buffer))
   (setf vao (gl:gen-vertex-array))
   (gl:bind-vertex-array vao)
-  (niu:write-array-buffer vbo (niu:gl-array vertices))
-  (gl:vertex-attrib-pointer 0 3 :float :false (niu:size-of :float 3) 0)
+  (mono:write-array-buffer vbo (mono:gl-array vertices))
+  (gl:vertex-attrib-pointer 0 3 :float :false (mono:size-of :float 3) 0)
   (gl:enable-vertex-attrib-array 0)
   (loop
     until (glfw:window-should-close-p)
     do (progn
          ;; it is not necessary to create and bind and EBO
-         (gl:draw-elements :triangles (niu:gl-array indices :unsigned-int))
+         (gl:draw-elements :triangles (mono:gl-array indices :unsigned-int))
          (glfw:swap-buffers)
          (glfw:poll-events))))
