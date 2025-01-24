@@ -2,7 +2,8 @@
   (:use :cl :arrows)
 
   ;; mono
-  (:export #:start)
+  (:export #:start
+           #:with-fps)
 
   ;; array
   (:export #:size-of
