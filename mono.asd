@@ -8,7 +8,10 @@
   :components ((:file "package")
                (:file "shaders")
                (:file "array")
-               (:file "mono")))
+               (:file "mono")
+               (:module "glsl"
+                :components ((:file "package")
+                             (:file "simplex")))))
 
 (asdf:defsystem #:mono/tests
   :depends-on (:mono :parachute)

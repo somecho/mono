@@ -37,8 +37,7 @@ initialized. This macro makes the following symbols available:
 - mono::frame-num - the current frame number
 - mono::frame-delta - the duration in seconds it took to render the previous
   frame
-- mono::curr-time - the current time in seconds since GLFW has been initalized
-"
+- mono::curr-time - the current time in seconds since GLFW has been initalized"
   (let* ((loop-body (car `,loop-expr))
          (update-form `(do (let ((new-time (glfw:get-time)))
                              (setf frame-delta (- new-time curr-time))
