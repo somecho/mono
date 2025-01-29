@@ -8,6 +8,7 @@
   :components ((:file "package")
                (:file "shaders")
                (:file "array")
+               (:file "generators")
                (:file "mono")
                (:module "glsl"
                 :components ((:file "package")

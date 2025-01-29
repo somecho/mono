@@ -2,6 +2,7 @@
 
 ;;; This is an example of how to use the mono:with-fps macro.
 
+(ql:quickload :mono)
 (mono:start ()
   (mono:with-frame-stats
     (loop until (glfw:window-should-close-p)

@@ -3,4 +3,4 @@
   ;; simplex
   (:export #:+simplex-3d+)
   ;; color
-  (:export #:+palete+))
+  (:export #:+palette+))

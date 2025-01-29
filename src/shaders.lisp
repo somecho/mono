@@ -78,6 +78,7 @@ it and makes it available throughout the form."
          (gl:attach-shader ,symbol fs)
          (format t "Linking shader program~%")
          (gl:link-program ,symbol)
+         (print (gl:get-program-info-log ,symbol))
          (gl:delete-shader vs)
          (gl:delete-shader fs)
          (gl:use-program default-shader)
