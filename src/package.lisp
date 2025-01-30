@@ -14,6 +14,14 @@
   (:export #:gen-cuboid-vertices
            #:+cuboid-indices+)
 
+  ;; math
+  (:export #:pi-f
+           #:clamp
+           #:xyz-sphere*
+           #:xyz-sphere
+           #:sphere-xyz*
+           #:sphere-xyz)
+
   ;; shaders
   (:export #:+vs-projection+
            #:+fs-default+

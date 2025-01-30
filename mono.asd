@@ -9,6 +9,7 @@
                (:file "shaders")
                (:file "array")
                (:file "generators")
+               (:file "math")
                (:file "mono")
                (:module "glsl"
                 :components ((:file "package")
