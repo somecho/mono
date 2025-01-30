@@ -15,7 +15,8 @@
                (:file "mono")
                (:module "glsl"
                 :components ((:file "package")
-                             (:file "simplex")))))
+                             (:file "simplex")
+                             (:file "color")))))
 
 (asdf:defsystem #:mono/tests
   :depends-on (:mono :parachute)
