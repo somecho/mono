@@ -21,7 +21,7 @@ and PHI, where the up axis is the Y axis."
 (defun xyz-sphere (vec)
   "Converts cartesian coordinates X, Y and Z to spherical coordinates R, THETA
 and PHI, where the up axis is the Y axis."
-  (declare (type (simple-vector 3) vec))
+  (declare (type (or (simple-vector 3) (simple-array single-float (3))) vec))
   (declare (values (simple-array single-float (3))))
   (xyz-sphere* (aref vec 0) (aref vec 1) (aref vec 2)))
 
@@ -40,6 +40,6 @@ and Z, where the up axis is the Y axis."
 (defun sphere-xyz (vec)
   "Converts spherical coordinates R, THETA and PHI to cartesian coordinates X, Y
 and Z, where the up axis is the Y axis."
-  (declare (type (simple-vector 3) vec))
+  (declare (type (or (simple-vector 3) (simple-array single-float (3))) vec))
   (declare (values (simple-array single-float (3))))
   (sphere-xyz* (aref vec 0) (aref vec 1) (aref vec 2)))
