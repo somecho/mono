@@ -1,6 +1,7 @@
 (asdf:defsystem #:mono
   :depends-on (:cl-opengl
                :cl-glfw3
+               :glkit
                :arrows
                :cffi)
   :pathname "src"
@@ -10,6 +11,7 @@
                (:file "array")
                (:file "generators")
                (:file "math")
+               (:file "camera")
                (:file "mono")
                (:module "glsl"
                 :components ((:file "package")

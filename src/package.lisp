@@ -22,6 +22,9 @@
            #:sphere-xyz*
            #:sphere-xyz)
 
+  (:export #:camera
+           #:update)
+
   ;; shaders
   (:export #:+vs-projection+
            #:+fs-default+
