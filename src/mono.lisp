@@ -6,12 +6,14 @@ Keys that can be provided and their defaults:
   - :title - \"\"
   - :width - 1000
   - :height - 1000
+  - :samples - 0
   - :vertex-shader - mono:+vs-default+
   - :fragment-shader - mono:+fs-white+
   - :on-keydown - (lambda (key))"
   (let ((title (getf keys :title ""))
         (width (getf keys :width 1000))
         (height (getf keys :height 1000))
+        (samples (getf keys :samples 0))
         (vertex-shader (getf keys :vertex-shader +vs-default+))
         (fragment-shader (getf keys :fragment-shader +fs-white+))
         (on-keydown (getf keys :on-keydown (lambda (key)))))
@@ -23,7 +25,7 @@ Keys that can be provided and their defaults:
              (handler-case (funcall ',on-keydown key) (error (e) (print e)))
              (when (eq key :escape)
                (glfw:set-window-should-close win)))))
-       (glfw:with-init-window (:title ,title :width ,width :height ,height)
+       (glfw:with-init-window (:title ,title :width ,width :height ,height :samples ,samples)
          (with-shader default-shader ,vertex-shader ,fragment-shader
            (glfw:set-key-callback 'key-callback)
            (gl:viewport 0 0 ,width ,height)
