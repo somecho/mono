@@ -52,3 +52,10 @@ initialized. This macro makes the following symbols available:
            (fps 0)
            (frame-num 0))
        ,body)))
+
+(defmacro with-loop (&body body)
+  `(mono:with-frame-stats
+     (loop until (glfw:window-should-close-p)
+           do (progn ,@body)
+           do (glfw:swap-buffers)
+           do (glfw:poll-events))))

@@ -3,7 +3,8 @@
 
   ;; mono
   (:export #:start
-           #:with-frame-stats)
+           #:with-frame-stats
+           #:with-loop)
 
   ;; array
   (:export #:size-of
