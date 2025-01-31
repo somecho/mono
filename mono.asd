@@ -12,6 +12,7 @@
                (:file "generators")
                (:file "math")
                (:file "camera")
+               (:file "gl")
                (:file "mono")
                (:module "glsl"
                 :components ((:file "package")

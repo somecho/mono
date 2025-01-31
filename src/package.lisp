@@ -22,8 +22,13 @@
            #:sphere-xyz*
            #:sphere-xyz)
 
+  ;; camera
   (:export #:camera
            #:update)
+
+  ;; gl
+  (:export #:uniformf
+           #:uniform-mat4f)
 
   ;; shaders
   (:export #:+vs-projection+
