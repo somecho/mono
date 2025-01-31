@@ -81,7 +81,9 @@ it and makes it available throughout the form."
          (print (gl:get-program-info-log ,symbol))
          (gl:delete-shader vs)
          (gl:delete-shader fs)
-         (gl:use-program default-shader)
+         (gl:use-program ,symbol)
          ,@body
          (gl:delete-program ,symbol))
-     (error (c) (print c))))
+     (error (c)
+       (print c)
+       (print (gl:get-error)))))

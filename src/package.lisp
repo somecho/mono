@@ -32,5 +32,7 @@
 
   ;; shaders
   (:export #:+vs-projection+
+           #:+vs-default+
            #:+fs-default+
+           #:+fs-white+
            #:with-shader))
