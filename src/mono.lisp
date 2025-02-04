@@ -59,3 +59,12 @@ initialized. This macro makes the following symbols available:
            do (progn ,@body)
            do (glfw:swap-buffers)
            do (glfw:poll-events))))
+
+(defmacro with-buffers (buffers &body body)
+  "Generates buffers with (gl:gen-buffer) for each symbol in BUFFERS. Must be
+called within a GL context."
+  `(progn
+     ,@(mapcar (lambda (buf)
+                 `(defparameter ,buf (gl:gen-buffer)))
+               buffers)
+     ,@body))

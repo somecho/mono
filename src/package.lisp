@@ -4,7 +4,8 @@
   ;; mono
   (:export #:start
            #:with-frame-stats
-           #:with-loop)
+           #:with-loop
+           #:with-buffers)
 
   ;; array
   (:export #:size-of
