@@ -16,10 +16,10 @@
   "Calculates the size of a C type. An optional argument
 `n` can be provided as the number of said type."
   (* n (cffi:foreign-type-size foreign-type)))
-(declaim (ftype (function
-                 ((simple-vector) &optional (member :float :double :unsigned-int)) gl:gl-array)
-                gl-array))
 
+(declaim (ftype (function
+                 ((or (simple-vector) (vector)) &optional (member :float :double :unsigned-int)) gl:gl-array)
+                gl-array))
 (defun gl-array (data &optional foreign-type)
   "Allocates, writes and returns a cl-opengl:gl-array with data,
 which is a simple-vector of some cffi-type. No check is done to make sure that
