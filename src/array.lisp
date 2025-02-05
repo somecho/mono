@@ -40,3 +40,24 @@ must be a cl-opengl:gl-array."
   (declare (type (unsigned-byte 32) id) (type gl:gl-array data))
   (gl:bind-buffer :array-buffer id)
   (gl:buffer-data :array-buffer :dynamic-draw data))
+
+
+(defun flatvec (sequences)
+  "Flattens SEQUENCES to a 1D vector. SEQUENCES must be a sequence of sequences.
+
+Examples:
+
+  (flatvec #(#(1 2 3) #(4 5 5))); => #(1 2 3 4 5 5)
+  (flatvec (list (list 1 2 3) #(33))); => #(1 2 3 33)
+"
+  (reduce (lambda (a b) (concatenate 'simple-vector a b)) sequences))
+
+(defun empty-vec ()
+  "Returns an empty vector that can be appended to using vector-push-extend."
+  (make-array 0 :adjustable t :fill-pointer 0))
+
+(defun push (vec x)
+  "Pushes X into VEC. This function differs from common lisp's vector-push-extend in that
+the vector we are pushing to is in the first argument position."
+  (declare (type vector vec))
+  (vector-push-extend x vec))

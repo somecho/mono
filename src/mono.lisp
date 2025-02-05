@@ -51,6 +51,7 @@ initialized. This macro makes the following symbols available:
            (curr-time (glfw:get-time))
            (fps 0)
            (frame-num 0))
+       (declare (ignorable fps))
        ,body)))
 
 (defmacro with-loop (&body body)

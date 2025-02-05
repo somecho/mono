@@ -13,7 +13,10 @@
   ;; array
   (:export #:size-of
            #:gl-array
-           #:write-array-buffer)
+           #:write-array-buffer
+           #:flatvec
+           #:empty-vec
+           #:push)
 
   ;; generators
   (:export #:gen-cuboid-vertices

@@ -1,57 +1,37 @@
 (in-package #:mono)
 
-(defconstant +vs-default+ "
-#version 330 core
-
+(defconstant +vs-default+ "#version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec4 aCol;
-
 out vec4 vCol;
-
 void main(){
   gl_Position = vec4(aPos, 1.0);
   vCol = aCol;
-}
-")
+}")
 
-(defconstant +vs-projection+ "
-#version 330 core
-
+(defconstant +vs-projection+ "#version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec4 aCol;
 uniform mat4 projectionMatrix;
-
 out vec4 vCol;
-
 void main(){
   gl_Position = projectionMatrix * vec4(aPos, 1.0);
   vCol = aCol;
-}
-")
+}")
 
 
-(defconstant +fs-white+ "
-#version 330
-
+(defconstant +fs-white+ "#version 330
 out vec4 FragColor;
-
-void main()
-{
+void main(){
   FragColor = vec4(1.0,1.0,1.0,1.0);
-}
-")
+}")
 
-(defconstant +fs-default+ "
-#version 330
-
+(defconstant +fs-default+ "#version 330
 in vec4 vCol;
 out vec4 FragColor;
-
-void main()
-{
+void main(){
   FragColor = vCol;
-}
-")
+}")
 
 (defmacro with-shader (symbol vertex-shader-source fragment-shader-source &body body)
   "Creates a form that compiles a vertex and fragment shader from source, links
@@ -78,7 +58,9 @@ it and makes it available throughout the form."
          (gl:attach-shader ,symbol fs)
          (format t "Linking shader program~%")
          (gl:link-program ,symbol)
-         (print (gl:get-program-info-log ,symbol))
+         (let ((info (gl:get-program-info-log ,symbol)))
+           (if (not (string-equal "" info))
+               (format t "~a" info)))
          (gl:delete-shader vs)
          (gl:delete-shader fs)
          (gl:use-program ,symbol)
