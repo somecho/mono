@@ -68,3 +68,14 @@ called within a GL context."
                  `(defparameter ,buf (gl:gen-buffer)))
                buffers)
      ,@body))
+
+(defmacro with-gl-resources ((&rest keys) &body body)
+  "Generates OpenGL resources that are available for use in the expression."
+  (let ((buffers (getf keys :buffers '()))
+        (vertex-arrays (getf keys :vertex-arrays '())))
+    `(progn
+       ,@(mapcar (lambda (buf) `(defparameter ,buf (gl:gen-buffer))) buffers)
+       ,@(mapcar (lambda (vao) `(defparameter ,vao (gl:gen-vertex-array))) vertex-arrays)
+       ,@body
+       (gl:delete-buffers (list ,@buffers))
+       (gl:delete-vertex-arrays (list ,@vertex-arrays)))))

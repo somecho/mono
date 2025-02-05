@@ -5,7 +5,8 @@
   (:export #:start
            #:with-frame-stats
            #:with-loop
-           #:with-buffers)
+           #:with-buffers
+           #:with-gl-resources)
 
   ;; array
   (:export #:size-of
