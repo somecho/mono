@@ -6,7 +6,9 @@
            #:with-frame-stats
            #:with-loop
            #:with-buffers
-           #:with-gl-resources)
+           #:with-gl-resources
+           #:with-vao
+           #:set-vertex-attrib)
 
   ;; array
   (:export #:size-of
