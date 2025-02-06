@@ -1,5 +1,6 @@
 (defpackage #:mono
   (:use :cl :arrows)
+  (:shadow #:push)
 
   ;; mono
   (:export #:start
@@ -14,9 +15,11 @@
   (:export #:size-of
            #:gl-array
            #:write-array-buffer
-           #:flatvec
+           #:flat-vec
+           #:concat-vec
            #:empty-vec
-           #:push)
+           #:push
+           #:concat-calls)
 
   ;; generators
   (:export #:gen-cuboid-vertices
@@ -28,7 +31,9 @@
            #:xyz-sphere*
            #:xyz-sphere
            #:sphere-xyz*
-           #:sphere-xyz)
+           #:sphere-xyz
+           #:sample-tri*
+           #:sample-tri)
 
   ;; camera
   (:export #:camera

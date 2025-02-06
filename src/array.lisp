@@ -42,13 +42,13 @@ must be a cl-opengl:gl-array."
   (gl:buffer-data :array-buffer :dynamic-draw data))
 
 
-(defun flatvec (sequences)
+(defun flat-vec (sequences)
   "Flattens SEQUENCES to a 1D vector. SEQUENCES must be a sequence of sequences.
 
 Examples:
 
-  (flatvec #(#(1 2 3) #(4 5 5))); => #(1 2 3 4 5 5)
-  (flatvec (list (list 1 2 3) #(33))); => #(1 2 3 33)
+  (flat-vec #(#(1 2 3) #(4 5 5))); => #(1 2 3 4 5 5)
+  (flat-vec (list (list 1 2 3) #(33))); => #(1 2 3 33)
 "
   (reduce (lambda (a b) (concatenate 'simple-vector a b)) sequences))
 
@@ -61,3 +61,34 @@ Examples:
 the vector we are pushing to is in the first argument position."
   (declare (type vector vec))
   (vector-push-extend x vec))
+
+(defun concat-vec (vecs dimension)
+  "Given that VECS is a vector containing vectors of fixed and consistent
+DIMENSION, constructs new vector concatenating all vectors. This is much faster
+than mono:flat-vec.
+
+Example:
+(mono:concat-vec #(#(2 2) #(4 4)); => #(2 2 4 4)
+"
+  (declare (type (or simple-vector vector) vecs)
+           (type integer dimension))
+  (let* ((num-vecs (length vecs))
+         (output (make-array (* dimension num-vecs))))
+    (dotimes (i num-vecs)
+      (replace output (aref vecs i) :start1 (* i dimension)))
+    output))
+
+(defun concat-calls (fn n)
+  "Calls the lambda FN for a total N times and collects the output of FN into
+vector. FN must be a lambda that returns a vector.
+
+Example:
+(mono:concat-calls (lambda () (make-array 3)) 2); => #(0 0 0 0 0 0)
+"
+  (declare (type (function nil (or simple-vector vector)) fn)
+           (type integer n)
+           (values vector))
+  (let ((arr (mono:empty-vec)))
+    (dotimes (i n)
+      (mono:push arr (funcall fn)))
+    (mono:concat-vec arr 3)))

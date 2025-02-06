@@ -43,3 +43,27 @@ and Z, where the up axis is the Y axis."
   (declare (type (or (simple-vector 3) (simple-array single-float (3))) vec))
   (declare (values (simple-array single-float (3))))
   (sphere-xyz* (aref vec 0) (aref vec 1) (aref vec 2)))
+
+(defun sample-tri* (a b c)
+  "Uniformly samples triangle with vertices A B C."
+  (declare (type (simple-array single-float (3)) a b c))
+  (let* ((u (/ (random 1001) 1000.0))
+         (v (/ (random 1001) 1000.0)))
+    (when (> (+ u v) 1.0)
+      (setf u (- 1.0 u))
+      (setf v (- 1.0 v)))
+    (let ((a1 (kit.glm:vec* a (- 1.0 u v)))
+          (b1 (kit.glm:vec* b u))
+          (c1 (kit.glm:vec* c v)))
+      (kit.glm:vec+ (kit.glm:vec+ a1 b1) c1))))
+
+(defun sample-tri (tri)
+  "Uniformly samples triangle TRI."
+  (declare (type (or (vector single-float 9)
+                     (simple-vector 9)
+                     (simple-array single-float (9))) tri)
+           (values (simple-array single-float (3))))
+  (let ((a (make-array 3 :element-type 'single-float :initial-contents (subseq tri 0 3)))
+        (b (make-array 3 :element-type 'single-float :initial-contents (subseq tri 3 6)))
+        (c (make-array 3 :element-type 'single-float :initial-contents (subseq tri 6 9))))
+    (sample-tri* a b c)))
