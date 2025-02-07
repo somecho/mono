@@ -67,3 +67,29 @@ and Z, where the up axis is the Y axis."
         (b (make-array 3 :element-type 'single-float :initial-contents (subseq tri 3 6)))
         (c (make-array 3 :element-type 'single-float :initial-contents (subseq tri 6 9))))
     (sample-tri* a b c)))
+
+(defun sample-tri-strip (tri-strip)
+  "Uniformly generate a pseudorandom point within TRI-STRIP, which must be a flat
+vector of 3D vertices."
+  (declare (type vector tri-strip)
+           (values (vector single-float 3)))
+  (let* ((num-vertices (-> tri-strip length (/ 3)))
+         (index (* 3 (random (- num-vertices 2))))
+         (tri (make-array 9 :element-type 'single-float
+                            :initial-contents (subseq tri-strip index (+ index 9)))))
+    (mono:sample-tri tri)))
+
+(defun sample-tri-fan (tri-fan)
+  "Uniformly generate a pseudorandom point within TRI-FAN, which must be a flat
+vector of 3D vertices."
+  (declare (type vector tri-fan)
+           (values (vector single-float 3)))
+  (let* ((num-vertices (-> tri-fan length (/ 3)))
+         (index (* 3 (+ 1 (random (- num-vertices 3)))))
+         (a (make-array 3 :element-type 'single-float
+                          :initial-contents (subseq tri-fan 0 3)))
+         (b (make-array 3 :element-type 'single-float
+                          :initial-contents (subseq tri-fan index (+ index 3))))
+         (c (make-array 3 :element-type 'single-float
+                          :initial-contents (subseq tri-fan (+ index 3) (+ index 6)))))
+    (mono:sample-tri* a b c)))

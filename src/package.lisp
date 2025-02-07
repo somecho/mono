@@ -33,7 +33,9 @@
            #:sphere-xyz*
            #:sphere-xyz
            #:sample-tri*
-           #:sample-tri)
+           #:sample-tri
+           #:sample-tri-strip
+           #:sample-tri-fan)
 
   ;; camera
   (:export #:camera
