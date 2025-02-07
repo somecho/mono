@@ -6,10 +6,7 @@
   (:export #:start
            #:with-frame-stats
            #:with-loop
-           #:with-buffers
-           #:with-gl-resources
-           #:with-vao
-           #:set-vertex-attrib)
+           #:with-return)
 
   ;; array
   (:export #:size-of
@@ -43,7 +40,11 @@
 
   ;; gl
   (:export #:uniformf
-           #:uniform-mat4f)
+           #:uniform-mat4f
+           #:with-buffers
+           #:with-gl-resources
+           #:with-vao
+           #:set-vertex-attrib)
 
   ;; shaders
   (:export #:+vs-projection+

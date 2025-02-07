@@ -24,7 +24,7 @@
     (mono:flat-vec pts)))
 
 (defun fan-points (time num-points)
-  (let* ((v (make-array (* num-points 3))))
+  (mono:with-return (v (make-array (* num-points 3)))
     (dotimes (i num-points)
       (let* ((r 1.0)
              (theta (-> (black-tie:simplex-noise-3d-sf (* i 0.0025)
@@ -40,8 +40,7 @@
              (xyz (mono:sphere-xyz* r theta phi)))
         (setf (aref v (* i 3)) (aref xyz 0))
         (setf (aref v (+ (* i 3) 1)) (aref xyz 1))
-        (setf (aref v (+ (* i 3) 2)) (aref xyz 2))))
-    v))
+        (setf (aref v (+ (* i 3) 2)) (aref xyz 2))))))
 
 (mono:start (:width w :height h :vertex-shader mono:+vs-projection+)
   (mono:with-gl-resources (:buffers (vbo fan-vbo) :vertex-arrays (vao fan-vao))
