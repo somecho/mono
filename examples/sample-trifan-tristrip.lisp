@@ -54,7 +54,7 @@
       (let* ((n-strip 1000)
              (sampled (mono:concat-calls (lambda () (mono:sample-tri-strip strip)) n-strip))
              (mat (kit.glm:matrix* persp (mono::view-mat cam)))
-             (n-fan 10000)
+             (n-fan 1000)
              (fan-size 1000)
              (fan-pts (fan-points mono::frame-num fan-size))
              (fan-samples (mono:concat-calls (lambda () (mono:sample-tri-fan fan-pts)) n-fan)))
