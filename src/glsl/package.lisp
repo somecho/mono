@@ -3,4 +3,6 @@
   ;; simplex
   (:export #:+simplex-3d+)
   ;; color
-  (:export #:+palette+))
+  (:export #:+palette+)
+  ;; trig
+  (:export #:+rot3d+))
