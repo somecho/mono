@@ -51,4 +51,6 @@
            #:+vs-default+
            #:+fs-default+
            #:+fs-white+
-           #:with-shader))
+           #:with-shader
+           #:compile-shader
+           #:create-shader))

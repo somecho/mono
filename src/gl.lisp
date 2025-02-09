@@ -35,13 +35,19 @@ Example:
     (mono:write-array-buffer vbo1 DATA)))
 "
   (let ((buffers (getf keys :buffers '()))
-        (vertex-arrays (getf keys :vertex-arrays '())))
+        (vertex-arrays (getf keys :vertex-arrays '()))
+        (shaders (getf keys :shaders '())))
     `(progn
        ,@(mapcar (lambda (buf) `(defparameter ,buf (gl:gen-buffer))) buffers)
        ,@(mapcar (lambda (vao) `(defparameter ,vao (gl:gen-vertex-array))) vertex-arrays)
+       ,@(mapcar (lambda (shader)
+                   `(defparameter ,(first shader)
+                      (apply 'mono:create-shader (list ,@(second shader)))))
+                 shaders)
        ,@body
        (gl:delete-buffers (list ,@buffers))
-       (gl:delete-vertex-arrays (list ,@vertex-arrays)))))
+       (gl:delete-vertex-arrays (list ,@vertex-arrays))
+       ,@(mapcar (lambda (shader) `(gl:delete-program ,shader)) shaders))))
 
 (defmacro with-vao (vao &body body)
   "Convenience macro that binds a VAO for the duration of the expression and
