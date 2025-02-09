@@ -40,6 +40,7 @@
 
   ;; gl
   (:export #:uniformf
+           #:uniform2f
            #:uniform-mat4f
            #:with-buffers
            #:with-gl-resources
